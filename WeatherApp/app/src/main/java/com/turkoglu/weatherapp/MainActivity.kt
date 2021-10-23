@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null){
             supportFragmentManager.commit{
                 setReorderingAllowed(true)
-                add<SearchFragment>(R.id.fragment_container)
+                add<DetatiledFragment>(R.id.fragment_container)
 
             }
         }
