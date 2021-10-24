@@ -38,6 +38,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -62,17 +63,19 @@
             app:layout_constraintTop_toTopOf="@+id/cardView5" />
 
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recycler"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView5" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView5"
+            tools:listitem="@layout/search_item" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
