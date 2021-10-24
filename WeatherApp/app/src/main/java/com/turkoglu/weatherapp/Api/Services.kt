@@ -7,6 +7,7 @@ import com.turkoglu.weatherapp.Models.SearchModel
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -14,7 +15,7 @@ interface Services {
     @GET("location/search/")
     suspend fun getPost(@Query("query")query: String): MutableList<SearchModel>
 
-    @GET("location/44418/")
-    suspend fun getForecast(): Example
+    @GET("location/{id}/")
+    suspend fun getForecast(@Path("id") id: Long): Example
 
 }

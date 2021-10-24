@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.example.ConsolidatedWeather
 import com.google.android.material.button.MaterialButton
 import com.turkoglu.weatherapp.Adapters.ForecastAdapter
 import com.turkoglu.weatherapp.Adapters.SearchAdapter
@@ -21,18 +25,16 @@ import kotlinx.coroutines.launch
 class DetatiledFragment : Fragment() {
 
     private var woeid: Long? = null
+    lateinit var weatherList: MutableList<ConsolidatedWeather>
+    lateinit var recyclerView : RecyclerView
 
-    companion object {
 
-        @JvmStatic
-        fun newInstance(param1: Long) =
-            BlankFragment().apply {
-                arguments = Bundle().apply {
-                    putLong("woeid", param1)
-                }
-            }
-    }
-
+    lateinit var titleText: TextView
+    lateinit var dateText: TextView
+    lateinit var weatherIcon: ImageView
+    lateinit var currentTemp: TextView
+    lateinit var currentWind: TextView
+    lateinit var currentHumidity: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +52,18 @@ class DetatiledFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_detatiled, container, false)
 
 
+        titleText = view.findViewById(R.id.city_name)
+        dateText = view.findViewById(R.id.current_date)
+        weatherIcon = view.findViewById(R.id.weather_icon)
+        currentTemp = view.findViewById(R.id.current_temp)
+        currentWind = view.findViewById(R.id.current_wind)
+        currentHumidity = view.findViewById(R.id.current_humidity)
+
         view.findViewById<MaterialButton>(R.id.back_button).setOnClickListener{
             (requireActivity() as MainActivity).setSearchFragment()
         }
 
-        var recyclerView : RecyclerView
+
         recyclerView = view.findViewById(R.id.forecast_recycler)
 
         val myLinearLayoutManager = object : LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false) {
@@ -64,32 +73,30 @@ class DetatiledFragment : Fragment() {
         }
         recyclerView.layoutManager = myLinearLayoutManager
 
-        recyclerView.adapter = ForecastAdapter(getModels())
-
 
         return view
     }
 
 
 
-    fun getModels(): MutableList<DailyForecastModel> {
-
-
-        val models = mutableListOf(
-            DailyForecastModel( "Monday", "28th May", 32.0, ""),
-            DailyForecastModel( "Tuesday", "31th May", 31.0, ""),
-            DailyForecastModel( "Wednesday", "16th July", 30.0, ""),
-            DailyForecastModel( "Thursday", "30th December", 29.8, ""),
-            DailyForecastModel( "Friday", "28th May", 62.62, ""),
-
-            )
-        return models
-    }
 
     suspend fun getData(query: Long) {
 
         val repository = Repository()
-        val response = repository.getForecast()
+        val response = woeid?.let { repository.getForecast(it) }
+        weatherList = response?.consolidatedWeather as MutableList<ConsolidatedWeather>
+        recyclerView.adapter = ForecastAdapter(weatherList, requireContext())
+        titleText.setText(response.title)
+        dateText.setText(weatherList.first().applicableDate)
+        val imageUrl = "https://www.metaweather.com/static/img/weather/png/${weatherList.first().weatherStateAbbr}.png"
+        Glide.with(requireContext()).load(imageUrl).into(weatherIcon)
+        currentTemp.setText(String.format("%.2f",weatherList.first().theTemp)+" \u2103")
+        currentWind.setText(String.format("%.2f",weatherList.first().windSpeed))
+        currentHumidity.setText(String.format("%.2f",weatherList.first().humidity)+" %")
+
+
+
+
         Log.i("Denemew", response.toString())
     }
 

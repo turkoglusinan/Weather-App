@@ -12,8 +12,8 @@ class Repository {
 
     }
 
-    suspend fun getForecast(): Example {
-        return RetrofitInstance.api.getForecast()
+    suspend fun getForecast(woeid: Long): Example {
+        return RetrofitInstance.api.getForecast(woeid)
 
     }
 }
