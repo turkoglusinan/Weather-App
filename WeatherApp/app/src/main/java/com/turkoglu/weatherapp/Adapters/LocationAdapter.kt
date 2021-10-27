@@ -1,6 +1,5 @@
 package com.turkoglu.weatherapp.Adapters
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +8,23 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.turkoglu.weatherapp.MainActivity
-import com.turkoglu.weatherapp.Models.SearchModel
+import com.turkoglu.weatherapp.Models.LocationModel
 import com.turkoglu.weatherapp.R
 
-class SearchAdapter(val searchList: MutableList<SearchModel>, var context: Context) : RecyclerView.Adapter<SearchAdapter.ModelViewHolder>() {
+class LocationAdapter(val locationList: MutableList<LocationModel>, var context: Context) : RecyclerView.Adapter<LocationAdapter.ModelViewHolder>() {
 
     var mContext = context
 
     class ModelViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-        val searchTitle: TextView = view.findViewById(R.id.search_title)
+        val locationTitle: TextView = view.findViewById(R.id.search_title)
+        val locationDistance: TextView = view.findViewById(R.id.show_distance)
 
 
-        fun bindItems(item: SearchModel, context: Context) {
-            searchTitle.setText(item.title)
-            var layout = view.findViewById<ConstraintLayout>(R.id.search_item_layout)
+
+        fun bindItems(item: LocationModel, context: Context) {
+            locationTitle.setText(item.title)
+            locationDistance.setText(item.distance.toString())
+            var layout = view.findViewById<ConstraintLayout>(R.id.location_item_layout)
             layout.setOnClickListener{
                 (context as MainActivity).setDetailedFragment(item.woeid)
 
@@ -31,22 +33,19 @@ class SearchAdapter(val searchList: MutableList<SearchModel>, var context: Conte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.search_item, parent, false)
-       /* view.setOnClickListener{
-            (mContext as MainActivity).setDetailedFragment()
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.location_item, parent, false)
 
-        }*/
 
 
         return ModelViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return searchList.size
+        return locationList.size
     }
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
-        holder.bindItems(searchList.get(position), mContext)
+        holder.bindItems(locationList.get(position), mContext)
 
     }
 }

@@ -3,9 +3,6 @@ package com.turkoglu.weatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
-import java.net.InetAddress
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(fragment)
     }
 
-    fun setDetailedFragment(woeid : Long){
+    fun setDetailedFragment(woeid: Long){
         val myFragment = DetatiledFragment()
         val bundle = Bundle()
         bundle.putLong("woeid",woeid)
@@ -31,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(myFragment)
 
     }
+
+
+
 
     fun AppCompatActivity.replaceFragment(fragment:Fragment){
         val fragmentManager = supportFragmentManager
