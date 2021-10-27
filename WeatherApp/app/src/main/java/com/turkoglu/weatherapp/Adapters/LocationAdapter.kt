@@ -23,7 +23,7 @@ class LocationAdapter(val locationList: MutableList<LocationModel>, var context:
 
         fun bindItems(item: LocationModel, context: Context) {
             locationTitle.setText(item.title)
-            locationDistance.setText(((item.distance.toInt())/855.45106383).toString()+" km")
+            locationDistance.setText(((item.distance.toInt())/1000).toString()+" km")
             var layout = view.findViewById<ConstraintLayout>(R.id.location_item_layout)
             layout.setOnClickListener{
                 (context as MainActivity).setDetailedFragment(item.woeid)
