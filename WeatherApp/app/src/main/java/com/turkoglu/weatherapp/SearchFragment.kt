@@ -145,18 +145,22 @@ class SearchFragment : Fragment() {
         val repository = Repository()
         val response = repository.getLatlon(query)
         var locationList: MutableList<LocationModel> = response.toMutableList()
-        lateinit var searchList: MutableList<LocationModel>
+        var searchList: MutableList<LocationModel> = response.toMutableList()
 
         locationList.forEach { item ->
-            val model = LocationModel(item.distance, item.title, item.location_type, item.woeid, item.latt_long)
+            val model = LocationModel(
+                item.distance,
+                item.title,
+                item.location_type,
+                item.woeid,
+                item.latt_long
+            )
             searchList.add(model)
 
         }
 
         recyclerView.adapter = LocationAdapter(searchList, requireContext())
     }
-
-
 
 
     /*private fun fetchLocation() {
